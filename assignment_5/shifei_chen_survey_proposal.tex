@@ -1,0 +1,40 @@
+% !BIB program = bibtex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% LATEX FORMATTING - LEAVE AS IS %%%%%%%%%%%%%%%%%%%%
+\documentclass[11pt]{article} % documenttype: article
+\usepackage[top=20mm,left=20mm,right=20mm,bottom=15mm,headsep=15pt,footskip=15pt,a4paper]{geometry} % customize margins
+\usepackage{times} % fonttype
+\usepackage[backend=bibtex, sorting=none]{biblatex}
+
+\addbibresource{references.bib}
+
+\makeatletter         
+\def\@maketitle{   % custom maketitle 
+\begin{center}
+{\bfseries \@title}
+{\bfseries \@author}
+\end{center}
+\smallskip \hrule \bigskip }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% MAKE CHANGES HERE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{{\LARGE Natural Language Processing: Survey Proposal}\\[1.5mm]} % Replace 'X' by number of Assignment
+\author{Shifei Chen} % Replace 'Firstname Lastname' by your name.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% BEGIN DOCUMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% From here on, edit document. Use sections, subsections, etc.
+%%% to structure your answers.
+\begin{document}
+\maketitle
+
+\section{Survey Proposal}
+
+I would like to have a look on word disambiguation, especially for words being used to avoid censorship.
+
+I have enclosed three articles with my proposal\cite{knockel2018effect}
+\cite{ji2018creative}\cite{ng2018linguistic}. In fact they were all discussed during the workshop on Natural Language Processing for Internet Freedom\cite{brew2018proceedings}.
+
+\printbibliography
+
+\end{document}
