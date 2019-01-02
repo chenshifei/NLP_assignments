@@ -5,6 +5,7 @@
 \usepackage[top=20mm,left=20mm,right=20mm,bottom=15mm,headsep=15pt,footskip=15pt,a4paper]{geometry} % customize margins
 \usepackage{times} % fonttype
 \usepackage{listings}
+\usepackage{csquotes}
 \usepackage[backend=bibtex, sorting=none]{biblatex}
 
 \addbibresource{shifei_chen_assignment_4.bib}
@@ -99,9 +100,7 @@ Labeling words with their semantic roles doesn't differ a lot from dependency pa
 
 After finishing the labeling work, people need to definie an efficient way to measure the level of agreement between different annotations. We need something more scientific than saying "There are x difference between your annotation and mine" thus people have introduced "inter-annotator agreement", a numeric value between 0 to 1 (sometimes it can be negetive) to descibe the similiarity between different annotations. An inter-annotator agreement of 1 means that annotators agree with each other completely and 0 means they don't agree with each other at all. There are some approaches to calculate inter-annotator agreement, such as Cohen's kappa\cite{BibEntry2018Dec} or Fleiss' kappa\cite{BibEntry2018Nov}. Here I have adopted Cohen's kappa to calculate my inter-annotator agreement between my classmate's annotation and mine, as there were only two annotations and Cohen's kappa is designed to handle no more than two samples.
 
-In the original version of Cohen's kappa all of its data should be binary, which means every item should either be categorized to category $k$ completely or not. But when annotating semantic roles I found that most of the disagreement between my classmate and I happens in the argument roles and the originial Cohen's Kappa can not describe different levels of disagreement precisely in this case. Even though there is a modified weighed Cohen's kappa available, which scores disagreements between categories\cite{cohen1968weighted}, it is still not what I was looking for. I would like to measure the disagreement within a category by a scale thus I have decided to notate it in the following way: for each category if both annotators agrees with the sense $i$ and the arguments we give $cell_{[i]}$ a full score, if they agree with the sense but have controversy over the arguments we give it a half score. If they don't agree with the sense at all then we give $cell_{[i, j]}$ a full score where $i$ and $j$ represents the senses backed by two annotators. The number of items $N$ is 10 since we have 10 sentences to annotate, everything other than this is the same to the original Cohen's kappa method.
-
-The original result chart for the discussion of the annotation, and the table I used to calculate Cohen's kappa are showed below.
+In the original version of Cohen's kappa all of its data should be binary, which means every item should either be categorized to category $k$ completely or not. But when annotating semantic roles I found that most of the disagreement between my classmate and I happens in the argument roles and the originial Cohen's Kappa can not describe different levels of disagreement precisely in this case. Even though there is a modified weighed Cohen's kappa available, which scores disagreements between categories\cite{cohen1968weighted}. So after an unsuccessful modification to the original calculation approach I decided to only measure our agreement in the word senses. Below are the original result chart for the discussion of the annotation and the table I used to calculate Cohen's kappa.
 
 \begin{table}[h]
     \begin{center}
@@ -131,28 +130,60 @@ The original result chart for the discussion of the annotation, and the table I 
         \begin{tabular}{c|c|c|c|c|c}
             \textbf{} & \textbf{count.01} & \textbf{count.02} & \textbf{count.03} & \textbf{count.04} & \textbf{Total}\\
             \hline
-            \textbf{count.01} & 2.5 & & & & 2.5\\
+            \textbf{count.01} & 2 & & & & 2\\
             \hline
-            \textbf{count.02} & 1 & 2 & & & 3\\
+            \textbf{count.02} & 1 & 4 & & & 5\\
             \hline
-            \textbf{count.03} & & & 1 & & 1\\
+            \textbf{count.03} & & & 2 & & 2\\
             \hline
-            \textbf{count.04} & & & & 0.5 & 0.5\\
+            \textbf{count.04} & & & & 1 & 1\\
             \hline
-            \textbf{Total} & 3.5 & 2 & 1 & 0.5 &\\
-            \hline
-            \hline
-            \textbf{Agreement} & 2.5 & 2 & 1 & 0.5 & 6\\
-            \hline
-            \textbf{By Chance} & 0.875 & 0.6 & 0.1 & 0.025 & 1.6\\
+            \textbf{Total} & 3 & 4 & 2 & 1 & 10\\
             \hline
             \hline
-            \textbf{kappa} & 0.5238\\
+            \textbf{Agreement} & 2 & 4 & 2 & 1 & 9\\
+            \hline
+            \textbf{By Chance} & 0.6 & 2 & 0.4 & 0.1 & 3.1\\
+            \hline
+            \hline
+            \textbf{kappa} & 0.8551\\
         \end{tabular}
     \end{center}
 \end{table}
 
-Sentence 2, 5 and 7 are the ones where I agree completely with the other annotator. 2 of them are the first sense of the word "count". In fact the last sentence "They count the cans in the trash to make sure.", which was also annotated as \texttt{count.01}, was also very close to a full agreement--we only had different opinions on whether we should include the prepositional phrase "in the trash" into A1. On the other hand, \texttt{count.02} was the most difficult one to reach a completely agreement on both the sense and the arguments. For example in sentence 6, "Many illegals were not counted in the population until the mid-80s.", "counted" can be both interpreted as counting the action or being included from my point of view. It will remain ambiguous until we have the context to figure out whether they did counted those criminals one by one or not.
+The originial formula to calculate the kappa is 
+
+\begin{equation}
+    \frac{p_o-p_e}{1-p_e}
+\end{equation}
+
+where $p_o$ and $p_e$ are the probabilities of the total agreement and the agreement by chance, hence $$p_o=\frac{\sum_kn_{k}}{N}$$ as $n_{k}$ means the number of items in total agreement in category $k$ and $N$ stands for the number of the items. Similiarly $$p_e=\sum_k\frac{n_{k1}}{N}\frac{n_{k2}}{N}=\frac{1}{N^2}\sum_kn_{k1}n_{k2}$$. Moreover, the original formula can also to turned in to $\frac{n-N\cdot p_e}{N-N\cdot p_e}$ if we multiply $N$ on both the numerator and the denominator.
+
+So for example the agreement number for \texttt{count.01} is 2 and the by chance number of it is $\frac{(1+2)\times2}{10}=0.3$. The final kappa came from the equation $\frac{9-3.1}{10-3.1}\approx0.8551$.
+
+Sentence 2, 5 and 7 are the ones where I agree completely with the other annotator, two of which have the word sence \texttt{count.01}. There were some disagreements to all of the other sentences, most of them were minor as we just have different opinions on the arguments. For example in sentence
+
+\begin{displayquote}
+    "They count the cans in the trash to make sure."
+\end{displayquote}
+
+We were not sure whether we should include the prepositional phrase "in the trash" into \texttt{A1}. Technically, this PP modifies the noun "cans" as it provides infomation on the location of the cans hence the whole NP "cans in the trash" can also be the object of the action "count". But in general the argument in the word sense should be kept simple as my co-annotator insisted, until the modifier will play a role in later analysis. In that situtation, we can give them proper labels such as \texttt{AM-LOC}.
+
+Some other disagreements on arguments happened in situtations where we could not justify to include the prepositon or not. Like the sentence
+
+\begin{displayquote}
+    "I am going to count it as signed, since ..."
+\end{displayquote}
+
+My partner only annotated "signed" as the second argument of \texttt{count.02} while I marked the whole PP "as signed" into it. Personally I believe the best practise is to take the prepositon into our consideration as well because sometimes the prepositon can also carry minor useful indication, like location or status.
+
+Besides all of these trival diversities, \texttt{count.02} was the most difficult one to reach a completely agreement on both the sense and the arguments. For example in sentence 6,
+
+\begin{displayquote}
+    "Many illegals were not counted in the population until the mid-80s."
+\end{displayquote}
+
+"counted" can be both interpreted as counting the action, or from my point of view, "being included". It will remain ambiguous until we have the context to figure out whether they did counted those criminals one by one or not.
 
 \printbibliography
 
